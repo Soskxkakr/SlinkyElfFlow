@@ -48,7 +48,7 @@ const { node } = useNode()
         >
       </div>
       <div v-show="item.type === 'attachment'" class="flex items-center mb-2">
-        <span class="text-xs text-green-500 bg-stone-600 p-2"
+        <span class="text-xs text-green-500 bg-stone-600 p-2 w-full"
           >{{ index + 1 }}: <em>Attachment</em></span
         >
       </div>
