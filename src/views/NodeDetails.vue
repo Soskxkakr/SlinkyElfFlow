@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import dayjs from 'dayjs'
@@ -21,22 +21,6 @@ const filteredNode = sideBarNodes.value.filter(
 )
 
 const node = ref(filteredNode.find((data) => data.id == id))
-const fieldsToValidate = reactive([
-  {
-    name: 'name',
-    isValid: true,
-    errorMessage: 'Name is required.',
-  },
-  {
-    name: 'dateTime',
-    isValid: true,
-    errorMessage: 'Date time is required',
-  },
-  {
-    name: 'messageSequence',
-    isValid: true,
-  },
-])
 
 if (node.value?.type === 'sendMessage') {
   fileList.value = node.value.data.payload
@@ -178,11 +162,7 @@ const updateTime = (index, value) => {
         name="name"
         :rules="[{ required: true, message: 'Name is required!' }]"
       >
-        <a-input
-          v-model:value="node.name"
-          placeholder="Enter node name"
-          :status="fieldsToValidate?.find((field) => field.name === 'name').isValid ? '' : 'error'"
-        />
+        <a-input v-model:value="node.name" placeholder="Enter node name" />
       </a-form-item>
 
       <a-form-item label="Description" class="">
@@ -260,11 +240,6 @@ const updateTime = (index, value) => {
               <a-time-range-picker
                 v-model:value="timeRanges[index]"
                 @change="(value) => updateTime(index, value)"
-                :status="
-                  fieldsToValidate?.find((field) => field.name === 'dateTime').isValid
-                    ? ''
-                    : 'error'
-                "
                 format="HH:mm"
               />
             </a-form-item>
