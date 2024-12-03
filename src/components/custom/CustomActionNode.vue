@@ -14,8 +14,8 @@ const { node } = useNode()
     style="width: 300px"
   >
     <Handle
-      type="source"
-      :id="`source-${node.type}-${node.id}`"
+      type="target"
+      :id="`${node.data.id}`"
       :position="Position.Top"
       :style="{
         height: '16px',
@@ -25,8 +25,8 @@ const { node } = useNode()
       }"
     />
     <Handle
-      type="target"
-      :id="`target-${node.type}-${node.id}`"
+      type="source"
+      :id="`${node.data.id}`"
       :position="Position.Bottom"
       :style="{
         height: '16px',

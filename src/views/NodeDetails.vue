@@ -5,7 +5,12 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import dayjs from 'dayjs'
 import { storeToRefs } from 'pinia'
-import { useSlinkyStore } from '../stores/useSlinkyStore.js'
+import { useSlinkyStore } from '@/stores/useSlinkyStore.js'
+import {
+  validateMessageSequence,
+  validateDateTime,
+  validateAddComment,
+} from '@/utils/useValidation'
 
 const fileList = ref([])
 const timeRanges = ref([])
@@ -13,7 +18,7 @@ const timeRanges = ref([])
 const route = useRoute()
 const router = useRouter()
 const { sideBarNodes } = storeToRefs(useSlinkyStore())
-const { onUpdateNode } = useSlinkyStore()
+const { onUpdateNode, onDeleteNode } = useSlinkyStore()
 
 const { id } = route.params
 const filteredNode = sideBarNodes.value.filter(
@@ -37,31 +42,6 @@ if (node.value?.type === 'sendMessage') {
     dayjs(time.startTime, 'HH:mm'),
     dayjs(time.endTime, 'HH:mm'),
   ])
-}
-
-const validateMessageSequence = () => {
-  if (!node.value.data.payload || node.value.data.payload.length === 0) {
-    return Promise.reject()
-  }
-
-  return Promise.resolve()
-}
-
-const validateDateTime = () => {
-  const times = node.value.data?.times || []
-  const incompleteDays = times.some((time) => !time.startTime || !time.endTime)
-
-  if (times.length !== 7 || incompleteDays) {
-    return Promise.reject()
-  }
-
-  return Promise.resolve()
-}
-
-const validateAddComment = () => {
-  if (!node.value.data.comment) return Promise.reject()
-
-  return Promise.resolve()
 }
 
 const updateNode = () => {
@@ -180,7 +160,7 @@ const updateTime = (index, value) => {
         :rules="[
           {
             required: true,
-            validator: validateMessageSequence,
+            validator: () => validateMessageSequence(node),
             message: 'At least one message sequence is required!',
           },
         ]"
@@ -225,7 +205,7 @@ const updateTime = (index, value) => {
         :rules="[
           {
             required: true,
-            validator: validateDateTime,
+            validator: () => validateDateTime(node),
             message: 'Date Time is invalid!',
           },
         ]"
@@ -254,7 +234,7 @@ const updateTime = (index, value) => {
         :rules="[
           {
             required: true,
-            validator: validateAddComment,
+            validator: () => validateAddComment(node),
             message: 'Comment is required!',
           },
         ]"
@@ -264,6 +244,7 @@ const updateTime = (index, value) => {
 
       <a-form-item :wrapper-col="{ offset: 4, span: 16 }">
         <a-button type="primary" html-type="submit">Save Changes</a-button>
+        <a-button danger class="ml-2" @click="onDeleteNode(node)">Delete Node</a-button>
       </a-form-item>
     </a-form>
   </template>

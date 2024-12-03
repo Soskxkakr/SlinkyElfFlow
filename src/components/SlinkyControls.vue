@@ -1,10 +1,11 @@
 <script setup>
 import { reactive } from 'vue'
 import { Panel, useVueFlow } from '@vue-flow/core'
+import { uuid } from 'vue-uuid'
 import { useSlinkyStore } from '@/stores/useSlinkyStore'
 import IconControls from '@/components/icons/IconControls.vue'
 
-const { nodes, toObject } = useVueFlow()
+const { toObject } = useVueFlow()
 const { onSaveNode, onAddNode } = useSlinkyStore()
 const node = reactive({
   name: '',
@@ -18,9 +19,8 @@ const saveNode = () => {
 
 function onAdd() {
   if (node.name && node.type && node.description) {
-    const id = nodes.value.length + 1
     onAddNode({
-      id: `new_node-${id}`,
+      id: uuid.v4(),
       parentId: -1,
       data: {
         description: node.description,

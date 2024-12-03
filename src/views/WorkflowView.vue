@@ -17,9 +17,6 @@ import { useSlinkyStore } from '@/stores/useSlinkyStore'
 const { onConnect, addEdges } = useVueFlow()
 const { onDragOver, onDrop, onDragLeave, isDragOver } = useDnD()
 const { nodes, edges } = storeToRefs(useSlinkyStore())
-
-const vueFlowNodes = ref(nodes.value.length > 0 ? nodes.value : [])
-const vueFlowEdges = ref(edges.value.length > 0 ? edges.value : [])
 const customNodetypes = ref({
   trigger: CustomTriggerNode,
   sendMessage: CustomActionNode,
@@ -28,18 +25,22 @@ const customNodetypes = ref({
   dateTime: CustomDateTimeNode,
 })
 
-console.log(nodes.value)
-console.log(edges.value)
-
-onConnect(addEdges)
+onConnect((connection) => {
+  console.log(connection)
+  addEdges({
+    ...connection,
+    id: `${connection.source}_${connection.sourceHandle}->${connection.target}`,
+  })
+})
 </script>
 
 <template>
   <div class="dnd-flow flex h-full sm:flex-col md:flex-col lg:flex-col xl:flex-row" @drop="onDrop">
     <VueFlow
-      :nodes="vueFlowNodes"
-      :edges="vueFlowEdges"
+      :nodes="nodes"
+      :edges="edges"
       :node-types="customNodetypes"
+      @onConnect="onConnect2"
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >

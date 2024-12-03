@@ -22,7 +22,8 @@ const timeRanges = ref(
     style="width: 250px"
   >
     <Handle
-      type="source"
+      type="target"
+      :id="node.data.id"
       :position="Position.Top"
       :style="{
         height: '16px',
@@ -32,7 +33,8 @@ const timeRanges = ref(
       }"
     />
     <Handle
-      type="target"
+      type="source"
+      :id="node.data.id"
       :position="Position.Bottom"
       :style="{
         height: '16px',

@@ -10,7 +10,8 @@ const { node } = useNode()
 <template>
   <div class="border-2 border-black rounded-lg p-4 w-full" @click="selectNode(node)">
     <Handle
-      type="source"
+      type="target"
+      :id="node.data.id"
       :position="Position.Top"
       :style="{
         height: '16px',
@@ -20,7 +21,8 @@ const { node } = useNode()
       }"
     />
     <Handle
-      type="target"
+      type="source"
+      :id="node.data.id"
       :position="Position.Bottom"
       :style="{
         height: '16px',

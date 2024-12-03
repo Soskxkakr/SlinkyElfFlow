@@ -1,6 +1,7 @@
 import { onBeforeMount, onMounted, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
 import { initialNodes } from '@/data/initialNodes'
 
 export const useSlinkyStore = defineStore('slinky-flow', () => {
@@ -8,6 +9,7 @@ export const useSlinkyStore = defineStore('slinky-flow', () => {
   const nodes = ref([])
   const edges = ref([])
   const selectedNode = ref(null)
+  const router = useRouter()
 
   const onAddNode = (node) => {
     sideBarNodes.value.push(node)
@@ -24,6 +26,44 @@ export const useSlinkyStore = defineStore('slinky-flow', () => {
     filteredNodes.push(node)
     sideBarNodes.value = filteredNodes
     localStorage.setItem('slinky-initial-nodes', JSON.stringify(sideBarNodes.value))
+  }
+
+  const onDeleteNode = (node) => {
+    // Remove from the initial side bar nodes
+    const filteredSideBarNodes = sideBarNodes.value.filter(
+      (sideBarNode) => sideBarNode.id !== node.id,
+    )
+    sideBarNodes.value = filteredSideBarNodes
+    localStorage.setItem('slinky-initial-nodes', JSON.stringify(sideBarNodes.value))
+
+    // Remove node that exists in the workflow
+    const filteredNodes = nodes.value.filter((flowNode) => flowNode.data.id !== node.id)
+    nodes.value = filteredNodes
+
+    // Remove node that is connected with the edges
+    const filteredEdges = edges.value.filter(
+      (edge) => edge.sourceHandle !== node.id && edge.targetHandle !== node.id,
+    )
+    edges.value = filteredEdges
+
+    // Remove node & edges in slinky-flow localstorage
+    const savedState = localStorage.getItem('slinky-flow')
+    if (savedState) {
+      const parsedState = JSON.parse(savedState)
+      const newNodes = parsedState.nodes.filter((newNode) => newNode.data.id !== node.id)
+      const newEdges = parsedState.edges.filter(
+        (newEdge) => newEdge.sourceHandle !== node.id && newEdge.targetHandle !== node.id,
+      )
+      localStorage.setItem(
+        'slinky-flow',
+        JSON.stringify({
+          ...parsedState,
+          nodes: newNodes,
+          edges: newEdges,
+        }),
+      )
+    }
+    router.push('/')
   }
 
   const selectNode = (node) => {
@@ -69,6 +109,7 @@ export const useSlinkyStore = defineStore('slinky-flow', () => {
     onAddNode,
     onSaveNode,
     onUpdateNode,
+    onDeleteNode,
     selectNode,
     resetSelectedNode,
   }
