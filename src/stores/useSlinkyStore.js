@@ -22,10 +22,33 @@ export const useSlinkyStore = defineStore('slinky-flow', () => {
   }
 
   const onUpdateNode = (node) => {
-    const filteredNodes = sideBarNodes.value.filter((sideBarNode) => sideBarNode.id !== node.id)
-    filteredNodes.push(node)
+    // Update the side bar nodes
+    const filteredNodes = sideBarNodes.value.filter((sideBarNode) => {
+      if (sideBarNode.id === node.id) {
+        return {
+          ...sideBarNode,
+          node,
+        }
+      }
+      return sideBarNode
+    })
     sideBarNodes.value = filteredNodes
     localStorage.setItem('slinky-initial-nodes', JSON.stringify(sideBarNodes.value))
+
+    // Update the nodes that exists in the workflow
+    const filteredFlowNodes = nodes.value.map((flowNode) => {
+      if (flowNode.data.id === node.id) {
+        return {
+          ...flowNode,
+          data: {
+            ...flowNode.data,
+            node,
+          },
+        }
+      }
+      return flowNode
+    })
+    nodes.value = filteredFlowNodes
   }
 
   const onDeleteNode = (node) => {
@@ -67,6 +90,7 @@ export const useSlinkyStore = defineStore('slinky-flow', () => {
   }
 
   const selectNode = (node) => {
+    console.log(node)
     const id = node.id
 
     if (id === selectedNode.value?.id) {

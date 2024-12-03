@@ -26,7 +26,6 @@ const customNodetypes = ref({
 })
 
 onConnect((connection) => {
-  console.log(connection)
   addEdges({
     ...connection,
     id: `${connection.source}_${connection.sourceHandle}->${connection.target}`,

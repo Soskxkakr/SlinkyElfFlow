@@ -28,7 +28,7 @@ const onClick = () => {
       <a-descriptions-item label="Name">{{ selectedNode?.data?.name || '-' }}</a-descriptions-item>
       <a-descriptions-item label="Type">{{ selectedNode?.type || '-' }}</a-descriptions-item>
       <a-descriptions-item label="Description">{{
-        selectedNode?.data?.description || '-'
+        selectedNode?.data?.data?.description || '-'
       }}</a-descriptions-item>
     </a-descriptions>
 

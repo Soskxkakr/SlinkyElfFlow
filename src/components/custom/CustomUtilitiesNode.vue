@@ -28,8 +28,15 @@ const { node } = useNode()
       <IconUtilities />
       <p class="ml-2">Comment</p>
     </div>
-    <div class="flex items-center mb-2">
+    <div class="flex items-center mb-2" v-if="node.data.data.comment">
       <span class="text-xs p-2">{{ node.data.data.comment }}</span>
+    </div>
+    <div
+      class="text-xs p-2 text-gray-500 overflow-hidden whitespace-nowrap text-ellipsis"
+      style="width: 100%; max-width: 280px"
+      v-if="node.data.data.description"
+    >
+      {{ node.data.data.description }}
     </div>
   </div>
 </template>

@@ -39,7 +39,7 @@ describe('SlinkyControls', () => {
     // Verify Title input field
     const titleInput = popoverConvent.findComponent({ name: 'a-input' })
     expect(titleInput.exists()).toBe(true)
-    expect(titleInput.attributes('placeholder')).toBe('Title')
+    expect(titleInput.attributes('placeholder')).toBe('Name')
 
     // Verify Description textarea
     const descriptionTextarea = popoverConvent.findComponent({ name: 'a-textarea' })

@@ -17,7 +17,7 @@ const saveNode = () => {
   onSaveNode(toObject())
 }
 
-function onAdd() {
+const onAdd = () => {
   if (node.name && node.type && node.description) {
     onAddNode({
       id: uuid.v4(),
@@ -47,29 +47,36 @@ function onAdd() {
           <span>Add new node</span>
         </template>
         <template #content>
-          <a-space direction="vertical">
-            <span>Title</span>
-            <a-input
-              v-model:value="node.name"
-              placeholder="Title"
-              class="input-field"
-              style="width: 400px"
-            />
-            <span>Description</span>
-            <a-textarea
-              v-model:value="node.description"
-              placeholder="Description"
-              :rows="4"
-              style="width: 400px"
-            />
-            <span>Type of node</span>
-            <a-radio-group v-model:value="node.type" button-style="solid">
-              <a-radio-button value="sendMessage">Send Message</a-radio-button>
-              <a-radio-button value="addComment">Add Comments</a-radio-button>
-              <a-radio-button value="dateTime">Business Hours</a-radio-button>
-            </a-radio-group>
-            <a-button type="primary" @click="onAdd">Add</a-button>
-          </a-space>
+          <a-form
+            :model="node"
+            @finish="onAdd"
+            :label-col="{ span: 4 }"
+            :wrapper-col="{ span: 16 }"
+          >
+            <a-space direction="vertical">
+              <span>Name</span>
+              <a-input
+                v-model:value="node.name"
+                placeholder="Name"
+                class="input-field"
+                style="width: 400px"
+              />
+              <span>Description</span>
+              <a-textarea
+                v-model:value="node.description"
+                placeholder="Description"
+                :rows="4"
+                style="width: 400px"
+              />
+              <span>Type of node</span>
+              <a-radio-group v-model:value="node.type" button-style="solid">
+                <a-radio-button value="sendMessage">Send Message</a-radio-button>
+                <a-radio-button value="addComment">Add Comments</a-radio-button>
+                <a-radio-button value="dateTime">Business Hours</a-radio-button>
+              </a-radio-group>
+              <a-button type="primary" @click="onAdd">Add</a-button>
+            </a-space>
+          </a-form>
         </template>
       </a-popover>
     </div>

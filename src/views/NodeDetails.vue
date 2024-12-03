@@ -145,7 +145,7 @@ const updateTime = (index, value) => {
         <a-input v-model:value="node.name" placeholder="Enter node name" />
       </a-form-item>
 
-      <a-form-item label="Description" class="">
+      <a-form-item label="Description">
         <a-textarea
           v-model:value="node.data.description"
           placeholder="Enter description"

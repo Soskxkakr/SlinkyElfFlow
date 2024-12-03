@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Handle, Position, useNode } from '@vue-flow/core'
 import dayjs from 'dayjs'
-import IconDateTime from '@/components/icons/IconDateTime.vue'
+import IconDateTime from '@/components/icons/IconDatetime.vue'
 import { useSlinkyStore } from '@/stores/useSlinkyStore'
 
 const { selectNode } = useSlinkyStore()
@@ -63,5 +63,13 @@ const timeRanges = ref(
         </div>
       </template>
     </template>
+
+    <div
+      class="text-xs p-2 text-gray-500 overflow-hidden whitespace-nowrap text-ellipsis"
+      style="width: 100%; max-width: 280px"
+      v-if="node.data.data.description"
+    >
+      {{ node.data.data.description }}
+    </div>
   </div>
 </template>

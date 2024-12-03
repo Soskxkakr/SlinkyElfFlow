@@ -53,5 +53,13 @@ const { node } = useNode()
         >
       </div>
     </div>
+
+    <div
+      class="text-xs p-2 text-gray-500 overflow-hidden whitespace-nowrap text-ellipsis"
+      style="width: 100%; max-width: 280px"
+      v-if="node.data.data.description"
+    >
+      {{ node.data.data.description }}
+    </div>
   </div>
 </template>

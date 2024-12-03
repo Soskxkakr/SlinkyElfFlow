@@ -28,7 +28,7 @@ const props = defineProps({
     </div>
 
     <div v-else-if="props.node.type === 'dateTime'" class="text-xs text-white mt-2">
-      Date Sequence: {{ props.node.data?.times.length }}
+      Date Sequence: {{ props.node.data?.times?.length || 0 }}
     </div>
   </div>
 </template>
