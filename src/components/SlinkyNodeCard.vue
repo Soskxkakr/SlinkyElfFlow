@@ -11,7 +11,10 @@ const props = defineProps({
     </div>
 
     <div v-for="(item, index) in props.node?.data?.payload || []" :key="index">
-      <div v-show="item.type === 'text'" class="flex items-center mb-2">
+      <div
+        v-show="item.type === 'text'"
+        class="flex items-center mb-2 overflow-hidden whitespace-nowrap text-ellipsis"
+      >
         <span class="text-xs text-green-500">{{ index + 1 }}: {{ item.text }}</span>
       </div>
       <div v-show="item.type === 'attachment'" class="flex items-center mb-2">
