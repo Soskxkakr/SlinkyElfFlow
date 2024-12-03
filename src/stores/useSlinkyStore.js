@@ -18,6 +18,8 @@ export const useSlinkyStore = defineStore('slinky-flow', () => {
 
   const onSaveNode = (exportObj) => {
     localStorage.setItem('slinky-flow', JSON.stringify(exportObj))
+    nodes.value = exportObj.nodes
+    edges.value = exportObj.edges
     message.success('Node saved successfully.')
   }
 
@@ -90,7 +92,6 @@ export const useSlinkyStore = defineStore('slinky-flow', () => {
   }
 
   const selectNode = (node) => {
-    console.log(node)
     const id = node.id
 
     if (id === selectedNode.value?.id) {
