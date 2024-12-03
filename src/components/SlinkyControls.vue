@@ -19,7 +19,7 @@ const saveNode = () => {
 
 const onAdd = () => {
   if (node.name && node.type && node.description) {
-    onAddNode({
+    const newNode = {
       id: uuid.v4(),
       parentId: -1,
       data: {
@@ -27,7 +27,21 @@ const onAdd = () => {
       },
       type: node.type,
       name: node.name,
-    })
+    }
+
+    if (node.type === 'dateTime') {
+      newNode['data']['times'] = [
+        { day: 'mon', startTime: null, endTime: null },
+        { day: 'tue', startTime: null, endTime: null },
+        { day: 'wed', startTime: null, endTime: null },
+        { day: 'thu', startTime: null, endTime: null },
+        { day: 'fri', startTime: null, endTime: null },
+        { day: 'sat', startTime: null, endTime: null },
+        { day: 'sun', startTime: null, endTime: null },
+      ]
+    }
+
+    onAddNode(newNode)
     node.name = ''
     node.description = ''
     node.type = 'sendMessage'
